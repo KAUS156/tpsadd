@@ -15,17 +15,13 @@
         height: 100vh;
     }
 
-    /* LEFT SIDE IMAGE */
     .left-box {
         width: 50%;
-        height: 50Svh;
-        padding-top: 508px;
-        
-        background: url('/Frame\ 213\ \(9\).png') no-repeat center center/cover;
+        height: 100vh;
+        background: url('/Frame 213 (9).png') no-repeat center center/cover;
         animation: slideLeft 1s ease-out;
     }
 
-    /* RIGHT SIDE FORM */
     .right-box {
         width: 50%;
         background: white;
@@ -34,15 +30,8 @@
         animation: slideRight 1s ease-out;
     }
 
-    @keyframes slideLeft {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(0); }
-    }
-
-    @keyframes slideRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
+    @keyframes slideLeft { from { transform: translateX(-100%);} to { transform: translateX(0);} }
+    @keyframes slideRight { from { transform: translateX(100%); opacity: 0;} to { transform: translateX(0); opacity: 1;} }
 
     .logo {
         width: 120px;
@@ -50,17 +39,8 @@
         display: block;
     }
 
-    h2 {
-        text-align: center;
-        color: #004aad;
-    }
-
-    .school-name {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        color: #002f6c;
-    }
+    h2 { text-align: center; color: #004aad; }
+    .school-name { text-align: center; font-size: 24px; font-weight: bold; color: #002f6c; }
 
     label {
         display: block;
@@ -77,11 +57,6 @@
         border: 2px solid #004aad;
         font-size: 16px;
         outline: none;
-        transition: 0.3s;
-    }
-
-    input:focus, select:focus {
-        box-shadow: 0 0 10px #004aad;
     }
 
     button {
@@ -94,7 +69,6 @@
         border-radius: 10px;
         color: white;
         cursor: pointer;
-        transition: 0.3s;
     }
 
     button:hover {
@@ -102,24 +76,31 @@
         transform: scale(1.05);
     }
 
-    .success {
-        margin-top: 20px;
-        color: green;
-        text-align: center;
-        font-size: 20px;
-        font-weight: bold;
+    .success-animation {
         display: none;
+        text-align: center;
+        margin-top: 20px;
+        animation: fadeIn 1.2s ease-out;
     }
 
-    /* RESPONSIVE */
+    .checkmark {
+        font-size: 55px;
+        color: green;
+        font-weight: bold;
+        animation: pop 0.5s ease-out;
+    }
+
+    @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;} }
+    @keyframes pop { from { transform: scale(0.5);} to { transform: scale(1);} }
+
     @media (max-width: 850px) {
         body { flex-direction: column; }
-        .left-box, .right-box { width: 100%; height: 50vh; }
+        .left-box { width: 100%; height: 40vh; }
+        .right-box { width: 100%; }
     }
 </style>
 
 </head>
-
 <body>
 
 <div class="left-box"></div>
@@ -131,52 +112,57 @@
     <div class="school-name">Trident Public School, Chakia</div>
     <h2>Admission Form 2026-27</h2>
 
-    <form 
-        action="https://script.google.com/macros/s/AKfycbzfDqZGhEsDSiRZ16EgwR8O_L1a99QKf-QP36QtEv2wgF4LeZ24xiKMu6PixGGcmhNW/exec"
-        method="POST"
-        target="hiddenFrame"
-    >
+<form 
+    id="mainForm"
+    action="https://script.google.com/macros/s/AKfycbybrptPgEYVvQwf4Lu6r_nC2NNTRklVrRR0HFPdmfCUMQkbyDZYcxvKM97wjT9Q5OcnYg/exec"
+    method="post"
+>
+    <label>Student Name</label>
+    <input type="text" name="name" required>
 
-        <label>Student Name</label>
-        <input type="text" name="name" required>
+    <label>Class</label>
+    <select name="class" required>
+        <option value="">Select</option>
+        <option>LKG</option>
+        <option>UKG</option>
+        <option>1st</option>
+        <option>2nd</option>
+        <option>3rd</option>
+        <option>4th</option>
+        <option>5th</option>
+        <option>6th</option>
+        <option>7th</option>
+        <option>8th</option>
+        <option>9th</option>
+        <option>10th</option>
+    </select>
 
-        <label>Class</label>
-        <select name="class" required>
-            <option value="">Select Class</option>
-            <option>LKG</option>
-            <option>UKG</option>
-            <option>1st</option>
-            <option>2nd</option>
-            <option>3rd</option>
-            <option>4th</option>
-            <option>5th</option>
-            <option>6th</option>
-            <option>7th</option>
-            <option>8th</option>
-            <option>9th</option>
-            <option>10th</option>
-        </select>
+    <label>Mobile Number</label>
+    <input type="text" name="mobile" required>
 
-        <label>Mobile Number</label>
-        <input type="text" name="mobile" required>
+    <button type="submit">Submit</button>
+</form>
 
-        <button type="submit">Submit</button>
-    </form>
-
-    <iframe name="hiddenFrame" style="display:none;"></iframe>
-
-    <div class="success" id="successMsg">
-        ✔ Thank you for sharing your information!
-    </div>
+<div class="success-animation" id="successAnimation">
+    <div class="checkmark">✔</div>
+    <h2>Thank You!</h2>
+    <p>Submitting your information...</p>
+</div>
 
 </div>
 
 <script>
-    // success message show animation
-    document.querySelector("form").addEventListener("submit", () => {
+    document.getElementById("mainForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        document.getElementById("successAnimation").style.display = "block";
+
         setTimeout(() => {
-            document.getElementById("successMsg").style.display = "block";
-        }, 1000);
+            event.target.submit();
+
+            // ✔ 1.5 sec ke baad THANK YOU PAGE open
+            window.location.href = "thankyou.html";
+        }, 1500);
     });
 </script>
 
