@@ -1,170 +1,438 @@
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trident Public School - Admission Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trident Public School</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial;
-        background: #f1f5ff;
-        display: flex;
-        height: 100vh;
-    }
+        /* ==========================================
+           1. TOP HEADER & LOGO AREA
+           ========================================== */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #ffffff;
+            flex-wrap: wrap;
+        }
 
-    .left-box {
-        width: 50%;
-        height: 100vh;
-        background: url('/Frame 213 (9).png') no-repeat center center/cover;
-        animation: slideLeft 1s ease-out;
-    }
+        .logo-area img {
+            height: 90px; /* Logo size */
+            width: auto;
+        }
 
-    .right-box {
-        width: 50%;
-        background: white;
-        padding: 50px;
-        box-shadow: -10px 0px 25px rgba(0,0,0,0.2);
-        animation: slideRight 1s ease-out;
-    }
+        .header-info-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
 
-    @keyframes slideLeft { from { transform: translateX(-100%);} to { transform: translateX(0);} }
-    @keyframes slideRight { from { transform: translateX(100%); opacity: 0;} to { transform: translateX(0); opacity: 1;} }
+        .info-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .logo {
-        width: 120px;
-        margin: auto;
-        display: block;
-    }
+        .info-icon {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8cc63f; /* School Green */
+            font-size: 1.1rem;
+        }
 
-    h2 { text-align: center; color: #004aad; }
-    .school-name { text-align: center; font-size: 24px; font-weight: bold; color: #002f6c; }
+        .info-text text {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: bold;
+        }
 
-    label {
-        display: block;
-        font-weight: bold;
-        margin-top: 20px;
-        color: #004aad;
-    }
+        .info-text strong {
+            display: block;
+            font-size: 0.95rem;
+            color: #222;
+            margin-top: 2px;
+        }
 
-    input, select {
-        width: 100%;
-        padding: 12px;
-        margin-top: 5px;
-        border-radius: 8px;
-        border: 2px solid #004aad;
-        font-size: 16px;
-        outline: none;
-    }
+        /* ==========================================
+           2. NAVIGATION BAR
+           ========================================== */
+        .navbar {
+            background-color: #8cc63f; /* Main Green color from image */
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
+        }
 
-    button {
-        margin-top: 30px;
-        width: 100%;
-        padding: 14px;
-        font-size: 18px;
-        background: #004aad;
-        border: none;
-        border-radius: 10px;
-        color: white;
-        cursor: pointer;
-    }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
 
-    button:hover {
-        background: #00307a;
-        transform: scale(1.05);
-    }
+        .nav-links li {
+            position: relative;
+        }
 
-    .success-animation {
-        display: none;
-        text-align: center;
-        margin-top: 20px;
-        animation: fadeIn 1.2s ease-out;
-    }
+        .nav-links a {
+            display: block;
+            padding: 16px 18px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s ease;
+        }
 
-    .checkmark {
-        font-size: 55px;
-        color: green;
-        font-weight: bold;
-        animation: pop 0.5s ease-out;
-    }
+        .nav-links a:hover {
+            background-color: #7ab332; /* Darker green on hover */
+        }
 
-    @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;} }
-    @keyframes pop { from { transform: scale(0.5);} to { transform: scale(1);} }
+        /* Dropdown arrow indicators */
+        .has-dropdown::after {
+            content: ' \f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 0.8rem;
+            margin-left: 4px;
+        }
 
-    @media (max-width: 850px) {
-        body { flex-direction: column; }
-        .left-box { width: 100%; height: 40vh; }
-        .right-box { width: 100%; }
-    }
-</style>
+        /* Apply Now Button */
+        .apply-btn {
+            background-color: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+        }
 
+        .apply-btn:hover {
+            background-color: #7ab332;
+        }
+
+        /* ==========================================
+           3. HERO SLIDER SECTION
+           ========================================== */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 70vh; 
+            overflow: hidden;
+        }
+
+        .hero-slider {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: #ffffff;
+            max-width: 800px;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 0.2s;
+        }
+
+        .slide.active .hero-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #8cc63f;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            text-transform: uppercase;
+            transition: background 0.3s ease;
+        }
+
+        .hero-btn:hover {
+            background-color: #7ab332;
+        }
+
+        /* Dots Navigation */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #8cc63f;
+        }
+
+        /* ==========================================
+           4. RESPONSIVE DESIGN (MOBILE)
+           ========================================== */
+        @media (max-width: 992px) {
+            .top-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .header-info-container {
+                justify-content: center;
+            }
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links a {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            .apply-btn {
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                height: 50vh;
+            }
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="left-box"></div>
+    <header class="top-header">
+        <div class="logo-area">
+            <img src="/download (4).jpeg" alt="Trident School Logo">
+        </div>
+        
+        <div class="header-info-container">
+            <div class="info-box">
+                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                <div class="info-text">
+                    <text>Call Now</text>
+                    <strong>(+91) 8092154400</strong>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                <div class="info-text">
+                    <text>Send Message</text>
+                    <strong>tpsgavandra2021@gmail.com</strong>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-text">
+                    <text>Our Location</text>
+                    <strong>TOLA- DHARAMPUR, GAVANDRA, CHAKIA</strong>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<div class="right-box">
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#school" class="has-dropdown">The School</a></li>
+            <li><a href="#academics" class="has-dropdown">Academics</a></li>
+            <li><a href="#disclosures" class="has-dropdown">Disclosures</a></li>
+            <li><a href="#gallery" class="has-dropdown">Gallery</a></li>
+            <li><a href="#admission" class="has-dropdown">Admission</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="home.html">Student</a></li>
+        </ul>
+        
+        <a href="#apply" class="apply-btn">
+            <i class="fas fa-pen"></i> Apply Now
+        </a>
+    </nav>
 
-    <img src="/download (4).jpeg" class="logo">
+    <div class="hero-container">
+        <div class="hero-slider">
+            
+            <div class="slide active">
+                <img src="/unnamed (1).webp" alt="Trident Campus">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Welcome to Trident Public School</h1>
+                        <p>Truth, Knowledge, Wisdom — Empowering minds for a brighter tomorrow.</p>
+                        <a href="#admission" class="hero-btn">Admission Open 2026-27</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slide">
+                <img src="/unnamed (2).webp" alt="Students">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Quality Education & Growth</h1>
+                        <p>Providing the best learning environment with modern facilities.</p>
+                        <a href="#academics" class="hero-btn">Explore Academics</a>
+                    </div>
+                </div>
+            </div>
 
-    <div class="school-name">Trident Public School, Chakia</div>
-    <h2>Admission Form 2026-27</h2>
+            <div class="slide">
+                <img src="/unnamed.webp" alt="Activities">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Shaping Future Leaders</h1>
+                        <p>Join us on a journey of academic excellence and co-curricular success.</p>
+                        <a href="#contact" class="hero-btn">Contact Us Now</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
 
-<form 
-    id="mainForm"
-    action="https://script.google.com/macros/s/AKfycbybrptPgEYVvQwf4Lu6r_nC2NNTRklVrRR0HFPdmfCUMQkbyDZYcxvKM97wjT9Q5OcnYg/exec"
-    method="post"
->
-    <label>Student Name</label>
-    <input type="text" name="name" required>
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
 
-    <label>Class</label>
-    <select name="class" required>
-        <option value="">Select</option>
-        <option>LKG</option>
-        <option>UKG</option>
-        <option>1st</option>
-        <option>2nd</option>
-        <option>3rd</option>
-        <option>4th</option>
-        <option>5th</option>
-        <option>6th</option>
-        <option>7th</option>
-        <option>8th</option>
-        <option>9th</option>
-        <option>10th</option>
-    </select>
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const slideInterval = 4000; // 4 Seconds
 
-    <label>Mobile Number</label>
-    <input type="text" name="mobile" required>
+        function showSlide(index) {
+            if (index >= slides.length) currentSlideIndex = 0;
+            if (index < 0) currentSlideIndex = slides.length - 1;
 
-    <button type="submit">Submit</button>
-</form>
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
 
-<div class="success-animation" id="successAnimation">
-    <div class="checkmark">✔</div>
-    <h2>Thank You!</h2>
-    <p>Submitting your information...</p>
-</div>
+            slides[currentSlideIndex].classList.add('active');
+            dots[currentSlideIndex].classList.add('active');
+        }
 
-</div>
+        function nextSlide() {
+            currentSlideIndex++;
+            showSlide(currentSlideIndex);
+        }
 
-<script>
-    document.getElementById("mainForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+        function currentSlide(index) {
+            clearInterval(autoSlide);
+            currentSlideIndex = index;
+            showSlide(currentSlideIndex);
+            autoSlide = setInterval(nextSlide, slideInterval);
+        }
 
-        document.getElementById("successAnimation").style.display = "block";
-
-        setTimeout(() => {
-            event.target.submit();
-
-            // ✔ 1.5 sec ke baad THANK YOU PAGE open
-            window.location.href = "thankyou.html";
-        }, 1500);
-    });
-</script>
+        let autoSlide = setInterval(nextSlide, slideInterval);
+    </script>
 
 </body>
 </html>

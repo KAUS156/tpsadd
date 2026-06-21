@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PA-I Score Card Portal - Trident Public School</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0284c7;
+            --success: #16a34a;
+            --warning: #e11d48;
+            --bg: #f8fafc;
+            --border: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 950px) { .grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h2 { margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; color: var(--secondary); }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
+        input, select {
+            width: 100%; padding: 10px; border: 1px solid var(--border);
+            border-radius: 6px; box-sizing: border-box; font-size: 14px;
+        }
+
+        button {
+            width: 100%; background: var(--primary); color: white; border: none;
+            padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold;
+            cursor: pointer; transition: background 0.2s; margin-top: 10px;
+        }
+        button:hover { opacity: 0.9; }
+        .btn-download { background: var(--success); }
+
+        .subject-grid {
+            background: #f1f5f9; padding: 15px; border-radius: 8px; margin-top: 15px;
+        }
+        
+        .subject-header-row {
+            display: grid; grid-template-columns: 2fr 1fr; gap: 15px;
+            font-weight: bold; margin-bottom: 10px; color: var(--primary); font-size: 14px;
+            border-bottom: 1px solid var(--border); padding-bottom: 5px;
+        }
+
+        .subject-row {
+            display: grid; grid-template-columns: 2fr 1fr; gap: 15px; margin-bottom: 8px;
+            align-items: center;
+        }
+
+        #noClassWarning {
+            text-align: center; color: #64748b; font-style: italic; padding: 20px 0;
+        }
+
+        /* Report Card Styling */
+        #reportCard { display: none; margin-top: 25px; background: #fff; border: 2px solid #94a3b8; padding: 30px; border-radius: 8px; }
+        
+        .report-header { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border-bottom: 3px double var(--primary); 
+            padding-bottom: 15px; 
+            margin-bottom: 15px;
+        }
+        .report-header img { width: 90px; height: 90px; object-fit: contain; border-radius: 6px; }
+        .header-text { text-align: center; }
+        .header-text h2 { margin: 0; padding: 0; border: none; color: var(--primary); font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
+        .header-text h4 { margin: 3px 0 0 0; color: #475569; font-size: 14px; font-weight: 600; }
+        .header-text h3 { margin: 8px 0 0 0; color: var(--secondary); font-size: 16px; font-weight: bold; letter-spacing: 1px; }
+
+        .student-meta { display: flex; justify-content: space-between; margin: 20px 0; font-weight: 600; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #cbd5e1; padding: 12px; text-align: center; }
+        th:first-child, td:first-child { text-align: left; }
+        th { background-color: #f1f5f9; color: var(--primary); }
+        .total-row { font-weight: bold; background-color: #f8fafc; }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #reportCard, #reportCard * { visibility: visible; }
+            #reportCard { position: absolute; left: 0; top: 0; width: 100%; border: none; padding: 0; }
+            .print-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🏫 Centralized Marks Upload & Result System</h1>
+    
+    <div class="grid">
+        <div class="card">
+            <h2>👨‍🏫 Teacher Entry Panel (PA-I Only)</h2>
+            <form id="marksForm">
+                <div class="form-group">
+                    <label>Roll Number / Unique ID:</label>
+                    <input type="text" id="rollNo" required placeholder="e.g., 202601">
+                </div>
+                <div class="form-group">
+                    <label>Student Name:</label>
+                    <input type="text" id="studentName" required placeholder="Enter student's full name">
+                </div>
+                <div class="form-group">
+                    <label>Class:</label>
+                    <select id="studentClass" required onchange="renderSubjectFields(this.value)">
+                        <option value="">-- Select Class --</option>
+                        <option value="Nursery">Nursery</option>
+                        <option value="LKG">LKG</option>
+                        <option value="UKG">UKG</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                    </select>
+                </div>
+
+                <label style="margin-top: 20px; display: block;">Enter PA-I Marks (Out of 20):</label>
+                <div class="subject-grid">
+                    <div class="subject-header-row">
+                        <div>Subject</div>
+                        <div>PA-I Marks (Max 20)</div>
+                    </div>
+                    
+                    <div id="dynamicSubjectsInputs">
+                        <div id="noClassWarning">Please select a class to load its respective subjects.</div>
+                    </div>
+                </div>
+                
+                <button type="submit">Submit & Save Marks</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>👶 Student Report Card Download</h2>
+            <div class="form-group">
+                <label>Select Class:</label>
+                <select id="searchClass">
+                    <option value="">-- Select Class --</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="LKG">LKG</option>
+                    <option value="UKG">UKG</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                    <option value="9">Class 9</option>
+                    <option value="10">Class 10</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Enter Roll Number:</label>
+                <input type="text" id="searchRoll" placeholder="Enter Roll Number to fetch data">
+            </div>
+            <button class="btn-download" onclick="generateReportCard()">Generate Report Card</button>
+
+            <div id="reportCard">
+                <div class="report-header">
+                    <img src="/download (4).jpeg" alt="TPS Logo" onerror="this.style.display='none'; alert('Note: To view the logo image on your local machine, ensure the browser supports local file pathways or render the file via a local server context.')">
+                    <div class="header-text">
+                        <h2>TRIDENT PUBLIC SCHOOL</h2>
+                        <h4>CHAKIA</h4>
+                        <h3>PERIODIC ASSESSMENT - I (PA-I) SCORE CARD</h3>
+                    </div>
+                </div>
+
+                <div class="student-meta">
+                    <div>Name: <span id="lblName" style="color:#000;">-</span></div>
+                    <div>Roll No: <span id="lblRoll">-</span></div>
+                    <div>Class: <span id="lblClass">-</span></div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Maximum Marks</th>
+                            <th>Marks Obtained (PA-I)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marksTableBody">
+                    </tbody>
+                </table>
+                
+                <button class="print-btn" style="margin-top: 25px; background-color: var(--secondary);" onclick="window.print()">🖨️ Print / Save as PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuration Object for handling dynamic classes & subjects maps
+    const schoolSubjectsConfiguration = {
+        junior: ["English Calligraphy", "Hindi Calligraphy", "English", "Hindi", "Maths", "G.K"],
+        middle: ["English", "Maths", "Hindi", "Science", "SST", "EVS", "Computer", "M.Sc", "G.K"],
+        senior: ["English", "Maths", "Hindi", "Science", "SST"]
+    };
+
+    // Helper function to figure out group based on Class String
+    function getSubjectGroup(className) {
+        if (["Nursery", "LKG", "UKG"].includes(className)) {
+            return schoolSubjectsConfiguration.junior;
+        } else if (["9", "10"].includes(className)) {
+            return schoolSubjectsConfiguration.senior;
+        } else if (className !== "") {
+            return schoolSubjectsConfiguration.middle;
+        }
+        return [];
+    }
+
+    // Render Form Inputs fields dynamically in the teacher panel
+    function renderSubjectFields(selectedClass) {
+        const targetContainer = document.getElementById('dynamicSubjectsInputs');
+        const activeSubjects = getSubjectGroup(selectedClass);
+
+        if (activeSubjects.length === 0) {
+            targetContainer.innerHTML = `<div id="noClassWarning">Please select a class to load its respective subjects.</div>`;
+            return;
+        }
+
+        let generatedHTML = "";
+        activeSubjects.forEach(subject => {
+            const inputId = `subject_input_${subject.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`;
+            generatedHTML += `
+                <div class="subject-row">
+                    <div>${subject}</div>
+                    <input type="number" data-subject-name="${subject}" id="${inputId}" min="0" max="20" required placeholder="0-20">
+                </div>
+            `;
+        });
+        targetContainer.innerHTML = generatedHTML;
+    }
+
+    // Submit Marks with Block Duplicate Logic
+    document.getElementById('marksForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const rollNo = document.getElementById('rollNo').value.trim();
+        const cls = document.getElementById('studentClass').value;
+
+        if (localStorage.getItem(`student_record_${rollNo}`) !== null) {
+            alert(`⚠️ Error: Marks for Roll Number "${rollNo}" already exist! You cannot upload marks multiple times for the same roll number.`);
+            return; 
+        }
+
+        const mappedMarksObj = {};
+        const subjectRowsInputs = document.querySelectorAll('#dynamicSubjectsInputs input[type="number"]');
+        
+        subjectRowsInputs.forEach(inputElement => {
+            const subjectRealName = inputElement.getAttribute('data-subject-name');
+            mappedMarksObj[subjectRealName] = parseInt(inputElement.value) || 0;
+        });
+
+        const studentData = {
+            name: document.getElementById('studentName').value.trim(),
+            class: cls,
+            marks: mappedMarksObj
+        };
+
+        localStorage.setItem(`student_record_${rollNo}`, JSON.stringify(studentData));
+        alert(`🎉 Success: PA-I Marks securely saved for Roll No: ${rollNo}`);
+        
+        this.reset();
+        document.getElementById('dynamicSubjectsInputs').innerHTML = `<div id="noClassWarning">Please select a class to load its respective subjects.</div>`;
+    });
+
+    // Generate Report Card Verified by Roll & Class
+    function generateReportCard() {
+        const searchClass = document.getElementById('searchClass').value;
+        const searchRoll = document.getElementById('searchRoll').value.trim();
+        const reportCard = document.getElementById('reportCard');
+        const tableBody = document.getElementById('marksTableBody');
+        
+        if (!searchClass) {
+            alert("Please select a Class first!");
+            return;
+        }
+        if (!searchRoll) {
+            alert("Please enter a Roll Number!");
+            return;
+        }
+
+        const rawData = localStorage.getItem(`student_record_${searchRoll}`);
+        
+        if (!rawData) {
+            alert("Error: No student record found matching this Roll Number!");
+            reportCard.style.display = 'none';
+            return;
+        }
+
+        const student = JSON.parse(rawData);
+
+        if (student.class !== searchClass) {
+            alert(`Access Denied: Entered Roll Number exists, but is not registered under Class ${searchClass}!`);
+            reportCard.style.display = 'none';
+            return;
+        }
+        
+        document.getElementById('lblName').innerText = student.name;
+        document.getElementById('lblRoll').innerText = searchRoll;
+        document.getElementById('lblClass').innerText = isNaN(student.class) ? student.class : `Class ${student.class}`;
+
+        tableBody.innerHTML = "";
+        let grandTotal = 0;
+        let totalMaxMarks = 0;
+
+        for (const [subject, score] of Object.entries(student.marks)) {
+            const row = `<tr>
+                <td><strong>${subject}</strong></td>
+                <td>20</td>
+                <td><strong>${score}</strong></td>
+            </tr>`;
+            tableBody.innerHTML += row;
+            
+            grandTotal += score;
+            totalMaxMarks += 20;
+        }
+
+        const percentage = parseFloat(((grandTotal / totalMaxMarks) * 100).toFixed(2));
+        
+        // --- Custom Grade Evaluation Logic ---
+        let gradeRowHTML = "";
+        if (percentage >= 95 && percentage <= 100) {
+            gradeRowHTML = `<tr class="total-row" style="color: #10b981; background-color: #f0fdf4;">
+                <td>Grade</td>
+                <td>-</td>
+                <td style="font-size: 18px; font-weight: 800;">A++ 🌟</td>
+            </tr>`;
+        } else if (percentage >= 90 && percentage < 95) {
+            gradeRowHTML = `<tr class="total-row" style="color: var(--success); background-color: #f0fdf4;">
+                <td>Grade</td>
+                <td>-</td>
+                <td style="font-size: 18px; font-weight: 800;">A+ ✨</td>
+            </tr>`;
+        }
+        
+        // Append Summary Rows
+        tableBody.innerHTML += `
+            <tr class="total-row">
+                <td>Grand Total</td>
+                <td>${totalMaxMarks}</td>
+                <td>${grandTotal}</td>
+            </tr>
+            <tr class="total-row" style="color: var(--primary)">
+                <td>Percentage</td>
+                <td>-</td>
+                <td>${percentage}%</td>
+            </tr>
+            ${gradeRowHTML}
+        `;
+
+        reportCard.style.display = 'block';
+    }
+</script>
+</body>
+</html>
