@@ -187,7 +187,7 @@
 
             <div id="reportCard">
                 <div class="report-header">
-                    <img src="/download (4).jpeg" alt="TPS Logo" onerror="this.style.display='none'; alert('Note: To view the logo image on your local machine, ensure the browser supports local file pathways or render the file via a local server context.')">
+                    <img src="/download (4).jpeg" alt="TPS Logo" onerror="this.style.display='none';">
                     <div class="header-text">
                         <h2>TRIDENT PUBLIC SCHOOL</h2>
                         <h4>CHAKIA</h4>
@@ -220,14 +220,12 @@
 </div>
 
 <script>
-    // Configuration Object for handling dynamic classes & subjects maps
     const schoolSubjectsConfiguration = {
         junior: ["English Calligraphy", "Hindi Calligraphy", "English", "Hindi", "Maths", "G.K"],
         middle: ["English", "Maths", "Hindi", "Science", "SST", "EVS", "Computer", "M.Sc", "G.K"],
         senior: ["English", "Maths", "Hindi", "Science", "SST"]
     };
 
-    // Helper function to figure out group based on Class String
     function getSubjectGroup(className) {
         if (["Nursery", "LKG", "UKG"].includes(className)) {
             return schoolSubjectsConfiguration.junior;
@@ -239,7 +237,6 @@
         return [];
     }
 
-    // Render Form Inputs fields dynamically in the teacher panel
     function renderSubjectFields(selectedClass) {
         const targetContainer = document.getElementById('dynamicSubjectsInputs');
         const activeSubjects = getSubjectGroup(selectedClass);
@@ -262,7 +259,6 @@
         targetContainer.innerHTML = generatedHTML;
     }
 
-    // Submit Marks with Block Duplicate Logic
     document.getElementById('marksForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const rollNo = document.getElementById('rollNo').value.trim();
@@ -294,7 +290,6 @@
         document.getElementById('dynamicSubjectsInputs').innerHTML = `<div id="noClassWarning">Please select a class to load its respective subjects.</div>`;
     });
 
-    // Generate Report Card Verified by Roll & Class
     function generateReportCard() {
         const searchClass = document.getElementById('searchClass').value;
         const searchRoll = document.getElementById('searchRoll').value.trim();
@@ -348,23 +343,24 @@
 
         const percentage = parseFloat(((grandTotal / totalMaxMarks) * 100).toFixed(2));
         
-        // --- Custom Grade Evaluation Logic ---
-        let gradeRowHTML = "";
-        if (percentage >= 95 && percentage <= 100) {
-            gradeRowHTML = `<tr class="total-row" style="color: #10b981; background-color: #f0fdf4;">
-                <td>Grade</td>
-                <td>-</td>
-                <td style="font-size: 18px; font-weight: 800;">A++ 🌟</td>
-            </tr>`;
-        } else if (percentage >= 90 && percentage < 95) {
-            gradeRowHTML = `<tr class="total-row" style="color: var(--success); background-color: #f0fdf4;">
-                <td>Grade</td>
-                <td>-</td>
-                <td style="font-size: 18px; font-weight: 800;">A+ ✨</td>
-            </tr>`;
-        }
+        // Comprehensive Grade Evaluation Engine
+        let gradeStr = "E";
+        let gradeColor = "#ef4444";
+        let gradeBg = "#fef2f2";
+
+        if (percentage >= 95) { gradeStr = "A++ 🌟"; gradeColor = "#10b981"; gradeBg = "#f0fdf4"; }
+        else if (percentage >= 90) { gradeStr = "A+ ✨"; gradeColor = "#22c55e"; gradeBg = "#f0fdf4"; }
+        else if (percentage >= 80) { gradeStr = "A 👑"; gradeColor = "#0284c7"; gradeBg = "#f0f9ff"; }
+        else if (percentage >= 70) { gradeStr = "B 👏"; gradeColor = "#3b82f6"; gradeBg = "#f0f9ff"; }
+        else if (percentage >= 55) { gradeStr = "C 👍"; gradeColor = "#eab308"; gradeBg = "#fefcbf"; }
+        else if (percentage >= 33) { gradeStr = "D 🔍"; gradeColor = "#f97316"; gradeBg = "#fff7ed"; }
+
+        let gradeRowHTML = `<tr class="total-row" style="color: ${gradeColor}; background-color: ${gradeBg};">
+            <td>Grade</td>
+            <td>-</td>
+            <td style="font-size: 16px; font-weight: 800;">${gradeStr}</td>
+        </tr>`;
         
-        // Append Summary Rows
         tableBody.innerHTML += `
             <tr class="total-row">
                 <td>Grand Total</td>

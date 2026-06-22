@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trident Public School</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         /* Base Reset */
         * {
@@ -23,9 +14,7 @@
             font-family: Arial, sans-serif;
         }
 
-        /* ==========================================
-           1. TOP HEADER & LOGO AREA
-           ========================================== */
+        /* ========================================== 1. TOP HEADER & LOGO AREA ========================================== */
         .top-header {
             display: flex;
             justify-content: space-between;
@@ -36,7 +25,7 @@
         }
 
         .logo-area img {
-            height: 90px; /* Logo size */
+            height: 90px;
             width: auto;
         }
 
@@ -60,11 +49,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #8cc63f; /* School Green */
+            color: #8cc63f;
             font-size: 1.1rem;
         }
 
-        .info-text text {
+        .info-text span {
             display: block;
             font-size: 0.85rem;
             color: #666;
@@ -78,17 +67,26 @@
             margin-top: 2px;
         }
 
-        /* ==========================================
-           2. NAVIGATION BAR
-           ========================================== */
+        /* ========================================== 2. NAVIGATION BAR ========================================== */
         .navbar {
-            background-color: #8cc63f; /* Main Green color from image */
+            background-color: #8cc63f;
             padding: 0 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
             z-index: 100;
+        }
+
+        /* Mobile Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 15px 0;
         }
 
         .nav-links {
@@ -102,7 +100,7 @@
 
         .nav-links a {
             display: block;
-            padding: 16px 18px;
+            padding: 18px 18px;
             color: #ffffff;
             text-decoration: none;
             font-size: 0.9rem;
@@ -112,13 +110,13 @@
         }
 
         .nav-links a:hover {
-            background-color: #7ab332; /* Darker green on hover */
+            background-color: #7ab332;
         }
 
         /* Dropdown arrow indicators */
         .has-dropdown::after {
             content: ' \f107';
-            font-family: 'Font Awesome 5 Free';
+            font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             font-size: 0.8rem;
             margin-left: 4px;
@@ -132,7 +130,7 @@
             font-weight: bold;
             text-transform: uppercase;
             font-size: 0.9rem;
-            padding: 16px 20px;
+            padding: 18px 20px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -143,13 +141,11 @@
             background-color: #7ab332;
         }
 
-        /* ==========================================
-           3. HERO SLIDER SECTION
-           ========================================== */
+        /* ========================================== 3. HERO SLIDER SECTION ========================================== */
         .hero-container {
             position: relative;
             width: 100%;
-            height: 70vh; 
+            height: 70vh;
             overflow: hidden;
         }
 
@@ -187,7 +183,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.45); 
+            background: rgba(0, 0, 0, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -263,85 +259,137 @@
             background-color: #8cc63f;
         }
 
-        /* ==========================================
-           4. RESPONSIVE DESIGN (MOBILE)
-           ========================================== */
+        /* ========================================== 4. RESPONSIVE DESIGN (TABLETS & PHONES) ========================================== */
         @media (max-width: 992px) {
             .top-header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
                 text-align: center;
+                padding: 20px 5%;
             }
+
             .header-info-container {
                 justify-content: center;
-            }
-            .navbar {
                 flex-direction: column;
-                padding: 10px;
+                gap: 15px;
+                width: 100%;
             }
+
+            .info-box {
+                justify-content: flex-start;
+                background: #f9f9f9;
+                padding: 10px 15px;
+                border-radius: 8px;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .info-text {
+                text-align: left;
+            }
+
+            /* Responsive Navbar Mobile Setup */
+            .navbar {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0 5%;
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger button */
+            }
+
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+                display: none; /* Hide standard links by default */
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #8cc63f;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             }
+
+            .nav-links.show {
+                display: flex; /* Toggle via Javascript */
+            }
+
+            .nav-links li {
+                width: 100%;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
             .nav-links a {
-                padding: 10px 12px;
-                font-size: 0.8rem;
+                padding: 15px 25px;
+                width: 100%;
             }
+
             .apply-btn {
-                padding: 10px;
-                font-size: 0.8rem;
+                padding: 15px 0;
             }
         }
 
         @media (max-width: 768px) {
             .hero-container {
-                height: 50vh;
+                height: 55vh;
             }
+
             .hero-content h1 {
                 font-size: 1.8rem;
             }
+
             .hero-content p {
                 font-size: 1rem;
+                margin-bottom: 15px;
+            }
+            
+            .hero-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- Header Section -->
     <header class="top-header">
         <div class="logo-area">
             <img src="/download (4).jpeg" alt="Trident School Logo">
         </div>
-        
         <div class="header-info-container">
             <div class="info-box">
                 <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                 <div class="info-text">
-                    <text>Call Now</text>
+                    <span>Call Now</span>
                     <strong>(+91) 8092154400</strong>
                 </div>
             </div>
-            
             <div class="info-box">
                 <div class="info-icon"><i class="fas fa-envelope"></i></div>
                 <div class="info-text">
-                    <text>Send Message</text>
+                    <span>Send Message</span>
                     <strong>tpsgavandra2021@gmail.com</strong>
                 </div>
             </div>
-            
             <div class="info-box">
                 <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="info-text">
-                    <text>Our Location</text>
+                    <span>Our Location</span>
                     <strong>TOLA- DHARAMPUR, GAVANDRA, CHAKIA</strong>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- Navigation Bar Menu -->
     <nav class="navbar">
-        <ul class="nav-links">
+        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-menu">
             <li><a href="#home">Home</a></li>
             <li><a href="#school" class="has-dropdown">The School</a></li>
             <li><a href="#academics" class="has-dropdown">Academics</a></li>
@@ -353,13 +401,13 @@
         </ul>
         
         <a href="#apply" class="apply-btn">
-            <i class="fas fa-pen"></i> Apply Now
+            <i class="fas fa-pen"></i> Apply Now 
         </a>
     </nav>
 
+    <!-- Hero Image Slider Section -->
     <div class="hero-container">
         <div class="hero-slider">
-            
             <div class="slide active">
                 <img src="/unnamed (1).webp" alt="Trident Campus">
                 <div class="hero-overlay">
@@ -370,7 +418,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="slide">
                 <img src="/unnamed (2).webp" alt="Students">
                 <div class="hero-overlay">
@@ -381,7 +428,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="slide">
                 <img src="/unnamed.webp" alt="Activities">
                 <div class="hero-overlay">
@@ -392,9 +438,7 @@
                     </div>
                 </div>
             </div>
-            
         </div>
-
         <div class="slider-dots">
             <span class="dot active" onclick="currentSlide(0)"></span>
             <span class="dot" onclick="currentSlide(1)"></span>
@@ -402,7 +446,26 @@
         </div>
     </div>
 
+    <!-- Scripts Logic -->
     <script>
+        // --- Mobile Menu Logic ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            // Toggle hamburger icon to an "X" close icon
+            const icon = menuBtn.querySelector('i');
+            if(navMenu.classList.contains('show')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // --- Hero Slider Logic ---
         let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
@@ -411,10 +474,10 @@
         function showSlide(index) {
             if (index >= slides.length) currentSlideIndex = 0;
             if (index < 0) currentSlideIndex = slides.length - 1;
-
+            
             slides.forEach(slide => slide.classList.remove('active'));
             dots.forEach(dot => dot.classList.remove('active'));
-
+            
             slides[currentSlideIndex].classList.add('active');
             dots[currentSlideIndex].classList.add('active');
         }
@@ -433,6 +496,5 @@
 
         let autoSlide = setInterval(nextSlide, slideInterval);
     </script>
-
 </body>
 </html>
