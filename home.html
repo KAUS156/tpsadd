@@ -187,7 +187,7 @@
 
             <div id="reportCard">
                 <div class="report-header">
-                    <img src="/download (4).jpeg" alt="TPS Logo" onerror="this.style.display='none';">
+                    <img src="download (4).jpeg" alt="TPS Logo" onerror="this.style.display='none';">
                     <div class="header-text">
                         <h2>TRIDENT PUBLIC SCHOOL</h2>
                         <h4>CHAKIA</h4>
@@ -250,7 +250,6 @@
         activeSubjects.forEach(subject => {
             const inputId = `subject_input_${subject.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`;
             
-            // यहाँ Computer, M.Sc, और G.K तीनों को डिफ़ॉल्ट रूप से 0 सेट किया गया है
             const isMiddleClass = !["Nursery", "LKG", "UKG", "9", "10"].includes(selectedClass);
             const shouldDefaultToZero = isMiddleClass && (subject === "Computer" || subject === "M.Sc" || subject === "G.K");
             const defaultValue = shouldDefaultToZero ? 'value="0"' : '';
@@ -265,15 +264,11 @@
         targetContainer.innerHTML = generatedHTML;
     }
 
+    // मार्क्स सबमिट करने का लॉजिक (अब ओवलइरॉइट/अपडेट अलाउड है)
     document.getElementById('marksForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const rollNo = document.getElementById('rollNo').value.trim();
         const cls = document.getElementById('studentClass').value;
-
-        if (localStorage.getItem(`student_record_${rollNo}`) !== null) {
-            alert(`⚠️ Error: Marks for Roll Number "${rollNo}" already exist! You cannot upload marks multiple times for the same roll number.`);
-            return; 
-        }
 
         const mappedMarksObj = {};
         const subjectRowsInputs = document.querySelectorAll('#dynamicSubjectsInputs input[type="number"]');
@@ -289,8 +284,9 @@
             marks: mappedMarksObj
         };
 
+        // डेटा हमेशा सेव या अपडेट हो जाएगा
         localStorage.setItem(`student_record_${rollNo}`, JSON.stringify(studentData));
-        alert(`🎉 Success: PA-I Marks securely saved for Roll No: ${rollNo}`);
+        alert(`🎉 Success: PA-I Marks saved/updated for Roll No: ${rollNo}`);
         
         this.reset();
         document.getElementById('dynamicSubjectsInputs').innerHTML = `<div id="noClassWarning">Please select a class to load its respective subjects.</div>`;
@@ -314,7 +310,7 @@
         const rawData = localStorage.getItem(`student_record_${searchRoll}`);
         
         if (!rawData) {
-            alert("Error: No student record found matching this Roll Number!");
+            alert("Error: No student record found matching this Roll Number on this site! Please submit marks first.");
             reportCard.style.display = 'none';
             return;
         }
@@ -381,6 +377,7 @@
         `;
 
         reportCard.style.display = 'block';
+        reportCard.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 </body>
