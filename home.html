@@ -98,10 +98,10 @@
         .total-row { font-weight: bold; background-color: #f8fafc; }
         
         @media print {
-            body * { visibility: hidden; }
-            #reportCard, #reportCard * { visibility: visible; }
+            body * { visibility: hidden !important; }
+            #reportCard, #reportCard * { visibility: visible !important; }
             #reportCard { position: absolute; left: 0; top: 0; width: 100%; border: none; padding: 0; }
-            .print-btn { display: none; }
+            .print-btn { display: none !important; }
         }
     </style>
 </head>
@@ -250,9 +250,9 @@
         activeSubjects.forEach(subject => {
             const inputId = `subject_input_${subject.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`;
             
-            // मिडिल स्कूल के लिए M.Sc और G.K को डिफ़ॉल्ट रूप से 0 सेट करने का लॉजिक
+            // यहाँ Computer, M.Sc, और G.K तीनों को डिफ़ॉल्ट रूप से 0 सेट किया गया है
             const isMiddleClass = !["Nursery", "LKG", "UKG", "9", "10"].includes(selectedClass);
-            const shouldDefaultToZero = isMiddleClass && (subject === "M.Sc" || subject === "G.K");
+            const shouldDefaultToZero = isMiddleClass && (subject === "Computer" || subject === "M.Sc" || subject === "G.K");
             const defaultValue = shouldDefaultToZero ? 'value="0"' : '';
 
             generatedHTML += `
@@ -349,7 +349,6 @@
 
         const percentage = parseFloat(((grandTotal / totalMaxMarks) * 100).toFixed(2));
         
-        // Comprehensive Grade Evaluation Engine
         let gradeStr = "E";
         let gradeColor = "#ef4444";
         let gradeBg = "#fef2f2";
