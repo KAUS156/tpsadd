@@ -221,8 +221,8 @@
 
 <script>
     const schoolSubjectsConfiguration = {
-        junior: ["English Calligraphy", "Hindi Calligraphy", "English", "Hindi", "Maths", "G.K"],
-        middle: ["English", "Maths", "Hindi", "Science", "SST", "EVS", "Computer", "M.Sc", "G.K"],
+        junior: [ "English", "Hindi", "Maths", "G.K"],
+        middle: ["English", "Maths", "Hindi", "Science", "SST",  "Computer", "M.Sc", "G.K"],
         senior: ["English", "Maths", "Hindi", "Science", "SST"]
     };
 
@@ -249,10 +249,16 @@
         let generatedHTML = "";
         activeSubjects.forEach(subject => {
             const inputId = `subject_input_${subject.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`;
+            
+            // मिडिल स्कूल के लिए M.Sc और G.K को डिफ़ॉल्ट रूप से 0 सेट करने का लॉजिक
+            const isMiddleClass = !["Nursery", "LKG", "UKG", "9", "10"].includes(selectedClass);
+            const shouldDefaultToZero = isMiddleClass && (subject === "M.Sc" || subject === "G.K");
+            const defaultValue = shouldDefaultToZero ? 'value="0"' : '';
+
             generatedHTML += `
                 <div class="subject-row">
                     <div>${subject}</div>
-                    <input type="number" data-subject-name="${subject}" id="${inputId}" min="0" max="20" required placeholder="0-20">
+                    <input type="number" data-subject-name="${subject}" id="${inputId}" min="0" max="20" ${defaultValue} required placeholder="0-20">
                 </div>
             `;
         });
